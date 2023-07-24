@@ -95,7 +95,7 @@ public class Tank : MonoBehaviour
 
         yield return new WaitForSeconds(speedDownTimer);
 
-        Debug.Log("Speed Up End");
+        Debug.Log("Speed Down End");
         MoveSpeed = defaultSpeed;
         speedDownOn = false;
         speedDownCoroutine = null;

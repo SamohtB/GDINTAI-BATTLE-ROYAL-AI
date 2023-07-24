@@ -312,7 +312,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4726506988970519426}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0000002, z: 1.0000002}
@@ -330,13 +330,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bulletPrefab: {fileID: 3180708871162134506, guid: 5942266b2a67d7e46be9eb256bb772d5, type: 3}
-  moveSpeed: 300
-  defaultSpeed: 300
+  moveSpeed: 200
+  defaultSpeed: 200
+  speedUpTimer: 10
+  speedDownTimer: 10
   factionOwner: 0
-  speedUpTimer: 0
-  speedDownTimer: 0
-  speedUp: 0
-  speedDown: 0
+  speedUpOn: 0
+  speedDownOn: 0
 --- !u!114 &4726506988970519434
 MonoBehaviour:
   m_ObjectHideFlags: 0
