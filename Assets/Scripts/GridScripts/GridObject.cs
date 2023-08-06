@@ -9,6 +9,15 @@ public class GridObject : MonoBehaviour
 
     private void Start()
     {
+        
+    }
+
+    private void OnEnable()
+    {
+        if(targetGrid == null)
+        {
+            targetGrid = FindAnyObjectByType<Grid>();
+        }
         Init();
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Node
 {
-    public bool passable;
+    public bool Passable { set; get; }
+
     public GridObject gridObject;
-    public float elevation;
 }
