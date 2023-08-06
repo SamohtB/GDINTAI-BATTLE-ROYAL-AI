@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class AITank : Tank
 {
+    void start() {}
 }
