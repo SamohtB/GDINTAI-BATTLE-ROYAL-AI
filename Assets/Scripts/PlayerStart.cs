@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using static Enum;
 
-public class PlayerStart : MonoBehaviour
+public class PlayerStart : GridObject
 {
     [SerializeField] private GameObject tankPrefab;
     [SerializeField] private Faction factionOwner;
-    [SerializeField] private int baseNumber;
     [SerializeField] private float shieldTimer = 10.0f;
     [SerializeField] private bool shieldsUp = false;
 
@@ -16,6 +15,11 @@ public class PlayerStart : MonoBehaviour
     private void Awake()
     {
         EventBroadcaster.Instance.AddObserver(EventNames.SHIELDS_UP, this.ShieldBase);    
+    }
+
+    private void OnDestroy()
+    {
+        EventBroadcaster.Instance.RemoveObserver(EventNames.SHIELDS_UP);
     }
 
     public Faction Faction

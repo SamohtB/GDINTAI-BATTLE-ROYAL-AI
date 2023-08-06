@@ -7,22 +7,18 @@ public class GridObject : MonoBehaviour
     public Grid targetGrid;
     public Vector2Int positionOnGrid;
 
+
     private void Start()
     {
-        
+        targetGrid = FindFirstObjectByType<Grid>();
     }
 
-    private void OnEnable()
+    public void PlaceInGrid()
     {
-        if(targetGrid == null)
+        if (targetGrid == null)
         {
-            targetGrid = FindAnyObjectByType<Grid>();
+            targetGrid = FindFirstObjectByType<Grid>();
         }
-        Init();
-    }
-
-    private void Init()
-    {
         positionOnGrid = targetGrid.GetGridPosition(transform.position);
         targetGrid.PlaceObject(positionOnGrid, this);
         Vector3 pos = targetGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);

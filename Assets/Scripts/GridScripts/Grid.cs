@@ -19,6 +19,7 @@ public class Grid : MonoBehaviour
     [SerializeField] private LayerMask _terrainLayer;
     private Node[,] grid;
     [SerializeField] private bool gizmoSwitch = false;
+    [SerializeField] private float cellMultiplier;
 
     private void Awake()
     {
@@ -33,6 +34,8 @@ public class Grid : MonoBehaviour
             for (int y = 0; y < _height; y++)
             {
                 grid[x, y] = new Node();
+                grid[x, y].Passable = true;
+                grid[x, y].GridObject = null;
             }
         }
  
@@ -51,7 +54,6 @@ public class Grid : MonoBehaviour
             {
                 Vector3 worldPosition = GetWorldPosition(x, y);
                 bool passable = !Physics.CheckBox(worldPosition, Vector3.one / 2 * _cellSize * 0.9f, Quaternion.identity, _obstacleLayer);
-                Debug.Log(worldPosition + " is " + passable);
                 grid[x, y].Passable = passable;
             }
         }
@@ -83,7 +85,7 @@ public class Grid : MonoBehaviour
                 for (int y = 0; y < _height; y++)
                 {
                     Vector3 pos = GetWorldPosition(x, y);
-                    Gizmos.DrawCube(pos, Vector3.one / 4);
+                    Gizmos.DrawCube(pos, Vector3.one * cellMultiplier);
                 }
             }
         }
@@ -95,7 +97,7 @@ public class Grid : MonoBehaviour
                 {
                     Vector3 pos = GetWorldPosition(x, y, true);
                     Gizmos.color = grid[x, y].Passable ? Color.white : Color.red;
-                    Gizmos.DrawCube(pos, Vector3.one / 4);
+                    Gizmos.DrawCube(pos, Vector3.one * cellMultiplier);
                 }
             }
         }
@@ -112,11 +114,21 @@ public class Grid : MonoBehaviour
         return grid[pos_x, pos_y].Passable;
     }
 
+    public bool CheckOccupied(int pos_x, int pos_y)
+    {
+        if(grid[pos_x, pos_y].GridObject == null)
+        { 
+           return false; 
+        }
+
+        return true;
+    }
+
     public void PlaceObject(Vector2Int positionOnGrid, GridObject gridObject)
     {
         if (CheckBoundry(positionOnGrid))
         {
-            grid[positionOnGrid.x, positionOnGrid.y].gridObject = gridObject;
+            grid[positionOnGrid.x, positionOnGrid.y].GridObject = gridObject;
             grid[positionOnGrid.x, positionOnGrid.y].Passable = false;
             Debug.Log("Added " + gridObject.name + " at " + positionOnGrid);
 
@@ -130,7 +142,7 @@ public class Grid : MonoBehaviour
     {
         if (CheckBoundry(positionOnGrid))
         {
-            grid[positionOnGrid.x, positionOnGrid.y].gridObject = null;
+            grid[positionOnGrid.x, positionOnGrid.y].GridObject = null;
             grid[positionOnGrid.x, positionOnGrid.y].Passable = true;
         }
         else 
@@ -184,7 +196,7 @@ public class Grid : MonoBehaviour
     {
         if (CheckBoundry(gridPosition))
         {
-            GridObject gridObject = grid[gridPosition.x, gridPosition.y].gridObject;
+            GridObject gridObject = grid[gridPosition.x, gridPosition.y].GridObject;
             return gridObject;
         }
 

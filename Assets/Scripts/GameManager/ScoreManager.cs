@@ -1,16 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
-public class GameManager : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
-    [SerializeField] private List<GameObject> playerBases;
-    [SerializeField] private List<GameObject> enemyBases;
-
-    [SerializeField] private float RespawnTimer = 5f;
-
+    
     [SerializeField] private TextMeshProUGUI playerEliminations;
     [SerializeField] private TextMeshProUGUI enemyEliminations;
 
@@ -18,22 +13,21 @@ public class GameManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI enemyBasesCount;
 
     [Header("ReadOnly")]
-    [SerializeField] [ReadOnly] private int playerSpawnPoint;
-    [SerializeField] [ReadOnly] private int enemySpawnPoint;
-
     [SerializeField] [ReadOnly] private int playerEliminationsCount = 0;
     [SerializeField] [ReadOnly] private int enemyEliminationsCount = 0;
 
     [SerializeField] [ReadOnly] private int playerAliveBases = 3;
     [SerializeField] [ReadOnly] private int enemyAliveBases = 3;
- 
-    
-    
+
+    private SpawnManager spawnManager;
+
     private void Awake()
     {
         EventBroadcaster.Instance.AddObserver(EventNames.ON_ELIMINATION, this.IncrementPoint);
         EventBroadcaster.Instance.AddObserver(EventNames.ON_BASE_DESTROYED, this.BaseDestroyed);
         EventBroadcaster.Instance.AddObserver(EventNames.ON_GAME_END, this.GameEnd);
+
+        spawnManager = GetComponent<SpawnManager>();
     }
 
     private void OnDestroy()
@@ -43,23 +37,10 @@ public class GameManager : MonoBehaviour
         EventBroadcaster.Instance.RemoveObserver(EventNames.ON_GAME_END);
     }
 
-    private void Start()
+    void Start()
     {
-        RandomizeSpawn();
-    }
-
-    private void RandomizeSpawn()
-    {
-        playerSpawnPoint = Random.Range(0, 3);
-        enemySpawnPoint = Random.Range(0, 3);
-
-        playerBases[playerSpawnPoint].GetComponent<PlayerStart>().CreateTank(); //Spawn Initial Player Tank
-        enemyBases[enemySpawnPoint].GetComponent<PlayerStart>().CreateTank();   //Spawn Initial Enemy Tank
-    }
-
-    public void GameEnd()
-    {
-        Debug.Log("Game End");
+        playerBasesCount.text = playerAliveBases.ToString();
+        enemyBasesCount.text = enemyAliveBases.ToString();
     }
 
     public void IncrementPoint(Parameters param)
@@ -72,31 +53,19 @@ public class GameManager : MonoBehaviour
             case 0:
                 playerEliminationsCount++;
                 playerEliminations.text = playerEliminationsCount.ToString();
-                StartCoroutine(EnemyRespawn());
+                spawnManager.RespawnCharacter(Enum.Faction.DarkElf);
                 break;
 
             case 1:
                 enemyEliminationsCount++;
                 enemyEliminations.text = enemyEliminationsCount.ToString();
-                StartCoroutine(PlayerRespawn());
+                spawnManager.RespawnCharacter(Enum.Faction.HighElf);
                 break;
 
             default:
                 Debug.LogError("Eliminations Broadcast Error");
                 break;
         }
-    }
-
-    IEnumerator PlayerRespawn()
-    {
-        yield return new WaitForSeconds(RespawnTimer);
-        playerBases[playerSpawnPoint].GetComponent<PlayerStart>().CreateTank();
-    }
-
-    IEnumerator EnemyRespawn()
-    {
-        yield return new WaitForSeconds(RespawnTimer);
-        enemyBases[enemySpawnPoint].GetComponent<PlayerStart>().CreateTank();
     }
 
     public void BaseDestroyed(Parameters param) 
@@ -129,5 +98,10 @@ public class GameManager : MonoBehaviour
         { 
             GameEnd();
         }
+    }
+
+    public void GameEnd()
+    {
+        Debug.Log("Game End");
     }
 }

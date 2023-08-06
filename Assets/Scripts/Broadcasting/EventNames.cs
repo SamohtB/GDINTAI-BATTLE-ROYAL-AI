@@ -11,6 +11,8 @@ public class EventNames {
 	public const string ON_BASE_DESTROYED = "ON_BASE_DESTROYED";
 
 	public const string SHIELDS_UP = "SHIELDS_UP";
+	public const string BRING_CHAOS = "BRING_CHAOS";
+	public const string MINES_MINES = "MINES";
 }
 
 

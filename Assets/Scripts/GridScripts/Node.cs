@@ -6,5 +6,5 @@ public class Node
 {
     public bool Passable { set; get; }
 
-    public GridObject gridObject;
+    public GridObject GridObject { get; set; }
 }
