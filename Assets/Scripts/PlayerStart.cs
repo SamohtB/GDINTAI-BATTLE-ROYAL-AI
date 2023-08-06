@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static Enum;
 
@@ -30,7 +29,10 @@ public class PlayerStart : GridObject
 
     public GameObject CreateTank()
     {
-        GameObject tank = Instantiate(tankPrefab, this.transform);
+        GameObject tank = Instantiate(tankPrefab);
+        tank.SetActive(true);
+        tank.transform.position = transform.position;
+        tank.GetComponent<GridObject>().PositionOnGrid = TargetGrid.GetGridPosition(tank.transform.position);
         tank.GetComponent<Tank>().InitTank(factionOwner);
 
         return tank;

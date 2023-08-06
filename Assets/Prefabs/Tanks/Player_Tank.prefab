@@ -330,19 +330,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf8ee0df4d17ac449856b577928c962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grid: {fileID: 0}
   bulletPrefab: {fileID: 3180708871162134506, guid: 5942266b2a67d7e46be9eb256bb772d5, type: 3}
-  moveSpeed: 200
-  defaultSpeed: 200
+  moveSpeed: 0.5
+  defaultSpeed: 0.5
   speedUpTimer: 10
   speedDownTimer: 10
   factionOwner: 0
   speedUpOn: 0
   speedDownOn: 0
-  shotCooldown: 1
-  shotTimer: 1
-  offset: {x: 0, y: 0.25, z: 0}
-  rb: {fileID: 0}
   direction: 0
+  offset: {x: 0, y: 0.25, z: 0}
 --- !u!114 &2769554302180452056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -381,5 +379,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd973f6695e55c348bf6b2f74ce024c3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  targetGrid: {fileID: 0}
-  positionOnGrid: {x: 0, y: 0}
+  _grid: {fileID: 0}

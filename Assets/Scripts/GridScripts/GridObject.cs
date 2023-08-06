@@ -4,29 +4,26 @@ using UnityEngine;
 
 public class GridObject : MonoBehaviour
 {
-    public Grid targetGrid;
-    public Vector2Int positionOnGrid;
-
-
-    private void Start()
-    {
-        targetGrid = FindFirstObjectByType<Grid>();
+    public Grid TargetGrid 
+    {  
+        get { return _grid; } 
+        private set { _grid = value; } 
     }
+
+    public Vector2Int PositionOnGrid {  get; set; }
+
+    [SerializeField] private Grid _grid;
 
     public void PlaceInGrid()
     {
-        if (targetGrid == null)
-        {
-            targetGrid = FindFirstObjectByType<Grid>();
-        }
-        positionOnGrid = targetGrid.GetGridPosition(transform.position);
-        targetGrid.PlaceObject(positionOnGrid, this);
-        Vector3 pos = targetGrid.GetWorldPosition(positionOnGrid.x, positionOnGrid.y, true);
+        PositionOnGrid = TargetGrid.GetGridPosition(transform.position);
+        TargetGrid.PlaceObject(PositionOnGrid, this);
+        Vector3 pos = TargetGrid.GetWorldPosition(PositionOnGrid.x, PositionOnGrid.y, true);
         transform.position = pos;
     }
 
     public void RemoveFromGrid()
     {
-        targetGrid.RemoveObject(positionOnGrid, this);
+        TargetGrid.RemoveObject(PositionOnGrid, this);
     }
 }

@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 /*
@@ -104,6 +103,12 @@ public class Grid : MonoBehaviour
 
         
     }
+
+    public Vector3 GetWorldPosition(Vector2Int pos, bool elevation = false)
+    {
+        return new Vector3(pos.x * _cellSize, 0f, pos.y * _cellSize);
+    }
+
     public Vector3 GetWorldPosition(int x, int y, bool elevation = false)
     {
         return new Vector3(x * _cellSize, 0f, y * _cellSize);
@@ -112,6 +117,11 @@ public class Grid : MonoBehaviour
     public bool CheckWalkable(int pos_x, int pos_y)
     {
         return grid[pos_x, pos_y].Passable;
+    }
+
+    public bool CheckWalkable(Vector2Int pos)
+    {
+        return grid[pos.x, pos.y].Passable;
     }
 
     public bool CheckOccupied(int pos_x, int pos_y)
