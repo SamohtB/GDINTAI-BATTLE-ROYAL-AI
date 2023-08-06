@@ -179,7 +179,9 @@ public class Tank : GridObject
         }
 
         isMoving = false;
-        PositionOnGrid = TargetGrid.GetGridPosition(transform.position);
+        RemoveFromGrid(startNode);
+        PlaceInGrid(targetPosition);
+
     }
     
     public void SpeedUp()

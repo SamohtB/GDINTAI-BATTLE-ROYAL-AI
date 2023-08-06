@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GridObject : MonoBehaviour
@@ -14,16 +12,14 @@ public class GridObject : MonoBehaviour
 
     [SerializeField] private Grid _grid;
 
-    public void PlaceInGrid()
+    public void PlaceInGrid(Vector3 postion)
     {
-        PositionOnGrid = TargetGrid.GetGridPosition(transform.position);
-        TargetGrid.PlaceObject(PositionOnGrid, this);
-        Vector3 pos = TargetGrid.GetWorldPosition(PositionOnGrid.x, PositionOnGrid.y, true);
-        transform.position = pos;
+        PositionOnGrid = TargetGrid.GetGridPosition(postion);
+        TargetGrid.PlaceObject(TargetGrid.GetGridPosition(postion), this);
     }
 
-    public void RemoveFromGrid()
+    public void RemoveFromGrid(Vector3 position)
     {
-        TargetGrid.RemoveObject(PositionOnGrid, this);
+        TargetGrid.RemoveObject(TargetGrid.GetGridPosition(position), this);
     }
 }

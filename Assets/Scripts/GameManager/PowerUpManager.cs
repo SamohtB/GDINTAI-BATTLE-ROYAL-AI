@@ -49,7 +49,7 @@ public class PowerUpManager : MonoBehaviour
         Vector3 worldCoordinates = targetGrid.GetWorldPosition(gridLocX, gridLocY);
         GameObject powerUp = Instantiate(powerUpPrefab);
         powerUp.transform.position = worldCoordinates;
-        powerUp.GetComponent<PowerUp>().PlaceInGrid();
+        powerUp.GetComponent<PowerUp>().PlaceInGrid(worldCoordinates);
        
         Debug.Log("Spawned at " + worldCoordinates + " as " + (PowerUpType)powerUpType);
 

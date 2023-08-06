@@ -7,7 +7,7 @@ public class PowerUp : GridObject
         if(other.tag == "TANK")
         {
             TriggerPowerUp(other);
-            RemoveFromGrid();
+            RemoveFromGrid(other.transform.position);
         }
         else
         {

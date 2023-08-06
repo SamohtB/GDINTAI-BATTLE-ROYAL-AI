@@ -17,6 +17,7 @@ public class Grid : MonoBehaviour
     [Tooltip("Layer mask for floor")]
     [SerializeField] private LayerMask _terrainLayer;
     private Node[,] grid;
+
     [SerializeField] private bool gizmoSwitch = false;
     [SerializeField] private float cellMultiplier;
 
@@ -140,7 +141,6 @@ public class Grid : MonoBehaviour
         {
             grid[positionOnGrid.x, positionOnGrid.y].GridObject = gridObject;
             grid[positionOnGrid.x, positionOnGrid.y].Passable = false;
-            Debug.Log("Added " + gridObject.name + " at " + positionOnGrid);
 
         }
         else
@@ -211,6 +211,11 @@ public class Grid : MonoBehaviour
         }
 
         return null;
+    }
+
+    public Node[,] GetGrid()
+    {
+        return grid;
     }
 
     //public List<Vector3> ConvertPathNodeToTargetPositions(List<PathNode> path)

@@ -92,9 +92,9 @@ public class SpawnManager : MonoBehaviour
                     spawnLocFound = true;
                 }
 
-                pBase.GetComponent<GridObject>().RemoveFromGrid();
+                pBase.GetComponent<GridObject>().RemoveFromGrid(pBase.transform.position);
                 pBase.transform.position = targetGrid.GetWorldPosition(gridLocX, gridLocY);
-                pBase.GetComponent<GridObject>().PlaceInGrid();
+                pBase.GetComponent<GridObject>().PlaceInGrid(pBase.transform.position);
 
                 Debug.Log(pBase.name + " moved to " + pBase.transform.position);
             }
@@ -114,9 +114,9 @@ public class SpawnManager : MonoBehaviour
                     spawnLocFound = true;
                 }
 
-                pBase.GetComponent<GridObject>().RemoveFromGrid();
+                pBase.GetComponent<GridObject>().RemoveFromGrid(pBase.transform.position);
                 pBase.transform.position = targetGrid.GetWorldPosition(gridLocX, gridLocY);
-                pBase.GetComponent<GridObject>().PlaceInGrid();
+                pBase.GetComponent<GridObject>().PlaceInGrid(pBase.transform.position);
 
                 Debug.Log(pBase.name + " moved to " + pBase.transform.position);
             }
