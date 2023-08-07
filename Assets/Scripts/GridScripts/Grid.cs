@@ -140,8 +140,6 @@ public class Grid : MonoBehaviour
         if (CheckBoundry(positionOnGrid))
         {
             grid[positionOnGrid.x, positionOnGrid.y].GridObject = gridObject;
-            grid[positionOnGrid.x, positionOnGrid.y].Passable = false;
-
         }
         else
         {

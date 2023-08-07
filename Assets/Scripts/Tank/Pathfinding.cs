@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using static Enum;
 
 public class PathNode
 {
@@ -36,6 +36,7 @@ public class Pathfinding : MonoBehaviour
     [SerializeField] private GridObject enemy;
 
     PathNode[,] pathNodes;
+    Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
 
     private void Start()
     {
@@ -94,15 +95,18 @@ public class Pathfinding : MonoBehaviour
             }
 
             List<PathNode> neighborNodes = new List<PathNode>();
-            for (int x = -1; x < 2; x++)
-            {
-                for (int y = -1; y < 2; y++)
-                {
-                    if (x == 0 && y == 0) { continue; }
-                    if (targetGrid.CheckBoundry(currentNode.pos_x + x, currentNode.pos_y + y) == false) { continue; }
 
-                    neighborNodes.Add(pathNodes[currentNode.pos_x + x, currentNode.pos_y + y]);
-                }
+            foreach(Vector2Int dir in directions)
+            {
+                int neighbor_X = currentNode.pos_x + dir.x;
+                int neighbor_Y = currentNode.pos_y + dir.y;
+
+                if (neighbor_X < 0 || neighbor_X >= targetGrid.GetBounds().x ||
+                    neighbor_Y < 0 || neighbor_Y >= targetGrid.GetBounds().y ) { continue; }
+                if (targetGrid.CheckBoundry(neighbor_X, neighbor_Y) == false) { continue; }
+
+                PathNode neighborNode = pathNodes[neighbor_X, neighbor_Y];
+                neighborNodes.Add(neighborNode);
             }
 
             foreach (PathNode neighbor in neighborNodes)

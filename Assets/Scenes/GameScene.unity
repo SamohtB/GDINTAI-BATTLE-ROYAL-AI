@@ -309,7 +309,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1314
+  m_Name: pb_Mesh-1312
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3874,7 +3874,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh-1286
+  m_Name: pb_Mesh-1284
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6472,6 +6472,14 @@ PrefabInstance:
       propertyPath: tankPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 6377842556479523385, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 6377842556479523385, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6377842557226451426, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: m_Name
       value: Arena
@@ -6576,6 +6584,14 @@ PrefabInstance:
       propertyPath: tankPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7764892046349432211, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892046349432211, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7764892046417728890, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tank
       value: 
@@ -6584,6 +6600,18 @@ PrefabInstance:
       propertyPath: tankPrefab
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 7764892046417728891, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892047189161798, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892047189161798, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7764892047189161799, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tank
       value: 
@@ -6591,6 +6619,10 @@ PrefabInstance:
     - target: {fileID: 7764892047189161799, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tankPrefab
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892047583050774, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 7764892047583050775, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tank
@@ -6599,6 +6631,14 @@ PrefabInstance:
     - target: {fileID: 7764892047583050775, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tankPrefab
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892047790662230, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7764892047790662230, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7764892047790662231, guid: 6ab53a22f3da26c4c9d86a7fed61383f, type: 3}
       propertyPath: tank

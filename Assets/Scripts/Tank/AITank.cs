@@ -22,6 +22,8 @@ public class AITank : Tank
         if (!TankMoving())
         {
             queuedPath = pathfinding.PathFind(this.PositionOnGrid, playerBases[0].PositionOnGrid);
+            MoveAgent(TranslateNodeToDirection(queuedPath[0]));
+            queuedPath.RemoveAt(0);
         }
     }
 
@@ -30,20 +32,26 @@ public class AITank : Tank
         int deltaX = node.pos_x - PositionOnGrid.x;
         int deltaY = node.pos_y - PositionOnGrid.y;
 
+        Debug.Log($"Target Position: ({node.pos_x}, {node.pos_y}) | Position On Grid: ({PositionOnGrid.x}, {PositionOnGrid.y})");
+
         if (deltaX == 1 && deltaY == 0)
         {
+            Debug.Log("Moving East");
             return Direction.East;
         }
         else if (deltaX == -1 && deltaY == 0)
         {
+            Debug.Log("Moving West");
             return Direction.West;
         }
         else if (deltaX == 0 && deltaY == 1)
         {
+            Debug.Log("Moving North");
             return Direction.North;
         }
         else if (deltaX == 0 && deltaY == -1)
         {
+            Debug.Log("Moving South");
             return Direction.South;
         }
 
