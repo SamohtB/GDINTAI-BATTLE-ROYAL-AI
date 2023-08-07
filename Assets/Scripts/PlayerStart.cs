@@ -1,13 +1,11 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using static Enum;
 
-public class PlayerStart : MonoBehaviour
+public class PlayerStart : GridObject
 {
-    [SerializeField] private GameObject tankPrefab;
+    [SerializeField] private GameObject tank;
     [SerializeField] private Faction factionOwner;
-    [SerializeField] private int baseNumber;
     [SerializeField] private float shieldTimer = 10.0f;
     [SerializeField] private bool shieldsUp = false;
 
@@ -18,15 +16,27 @@ public class PlayerStart : MonoBehaviour
         EventBroadcaster.Instance.AddObserver(EventNames.SHIELDS_UP, this.ShieldBase);    
     }
 
+    private void OnDestroy()
+    {
+        EventBroadcaster.Instance.RemoveObserver(EventNames.SHIELDS_UP);
+    }
+
     public Faction Faction
     {
         get { return factionOwner; }
         set { factionOwner = value; }
     }
 
+    private void Start()
+    {
+        PlaceInGrid(transform.position);
+    }
+
     public GameObject CreateTank()
     {
-        GameObject tank = Instantiate(tankPrefab, this.transform);
+        tank.SetActive(true);
+        tank.transform.position = transform.position;
+        tank.GetComponent<GridObject>().PlaceInGrid(tank.transform.position);
         tank.GetComponent<Tank>().InitTank(factionOwner);
 
         return tank;

@@ -16,14 +16,14 @@ GameObject:
   - component: {fileID: 2769554302180452059}
   - component: {fileID: 2769554302180452057}
   - component: {fileID: 2769554302180452056}
-  - component: {fileID: 1375560908}
+  - component: {fileID: 225696264}
   m_Layer: 0
   m_Name: Player_Tank
   m_TagString: TANK
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2769554302180452054
 Transform:
   m_ObjectHideFlags: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 769
+  m_VersionIndex: 778
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -329,19 +329,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbf8ee0df4d17ac449856b577928c962, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grid: {fileID: 0}
   bulletPrefab: {fileID: 3180708871162134506, guid: 5942266b2a67d7e46be9eb256bb772d5, type: 3}
-  moveSpeed: 200
-  defaultSpeed: 200
+  moveSpeed: 2
+  defaultSpeed: 2
   speedUpTimer: 10
   speedDownTimer: 10
   factionOwner: 0
   speedUpOn: 0
   speedDownOn: 0
-  shotCooldown: 1
-  shotTimer: 1
-  offset: {x: 0, y: 0.25, z: 0}
-  rb: {fileID: 0}
   direction: 0
+  offset: {x: 0, y: 0.25, z: 0}
+  shotCooldown: 1
 --- !u!114 &2769554302180452056
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -360,7 +359,7 @@ MonoBehaviour:
   - {fileID: 2100000, guid: eced97488cfced142a5e2c7dab64041e, type: 2}
   - {fileID: 2100000, guid: 959218f7492bf80418582d93a656f937, type: 2}
   factionOwner: 0
---- !u!33 &1375560908
+--- !u!33 &225696264
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4726506988970519432}
   - component: {fileID: 4726506988970519433}
   - component: {fileID: 5199391430957728051}
+  - component: {fileID: 925189096538345234}
   - component: {fileID: 4726506988970519434}
   - component: {fileID: 7491883007882471838}
   m_Layer: 0
@@ -23,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4726506988970519428
 Transform:
   m_ObjectHideFlags: 0
@@ -214,7 +215,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 766
+  m_VersionIndex: 778
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -312,7 +313,7 @@ BoxCollider:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4726506988970519426}
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
   m_Size: {x: 1, y: 1.0000002, z: 1.0000002}
@@ -329,14 +330,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac4076d000a50fd459f9df4de54eaaeb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _grid: {fileID: 0}
   bulletPrefab: {fileID: 3180708871162134506, guid: 5942266b2a67d7e46be9eb256bb772d5, type: 3}
-  moveSpeed: 300
-  defaultSpeed: 300
-  factionOwner: 0
-  speedUpTimer: 0
-  speedDownTimer: 0
-  speedUp: 0
-  speedDown: 0
+  moveSpeed: 2
+  defaultSpeed: 2
+  speedUpTimer: 10
+  speedDownTimer: 10
+  factionOwner: 1
+  speedUpOn: 0
+  speedDownOn: 0
+  direction: 0
+  offset: {x: 0, y: 0.25, z: 0}
+  pathfinding: {fileID: 925189096538345234}
+  playerBases:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+--- !u!114 &925189096538345234
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4726506988970519426}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d22fa5ef66a84140bb77fbeab7424f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGrid: {fileID: 0}
+  enemy: {fileID: 0}
 --- !u!114 &4726506988970519434
 MonoBehaviour:
   m_ObjectHideFlags: 0
