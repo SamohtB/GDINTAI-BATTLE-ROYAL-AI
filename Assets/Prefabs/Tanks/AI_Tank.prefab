@@ -24,7 +24,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4726506988970519428
 Transform:
   m_ObjectHideFlags: 0
@@ -215,7 +215,7 @@ MonoBehaviour:
   m_PreserveMeshAssetOnDestroy: 0
   assetGuid: 
   m_Mesh: {fileID: 0}
-  m_VersionIndex: 766
+  m_VersionIndex: 778
   m_IsSelectable: 1
   m_SelectedFaces: 
   m_SelectedEdges: []
@@ -332,17 +332,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _grid: {fileID: 0}
   bulletPrefab: {fileID: 3180708871162134506, guid: 5942266b2a67d7e46be9eb256bb772d5, type: 3}
-  moveSpeed: 200
-  defaultSpeed: 200
+  moveSpeed: 2
+  defaultSpeed: 2
   speedUpTimer: 10
   speedDownTimer: 10
-  factionOwner: 0
+  factionOwner: 1
   speedUpOn: 0
   speedDownOn: 0
   direction: 0
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 0.25, z: 0}
   pathfinding: {fileID: 925189096538345234}
-  playerBases: []
+  playerBases:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!114 &925189096538345234
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -356,7 +359,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   targetGrid: {fileID: 0}
-  agent: {fileID: 5199391430957728051}
   enemy: {fileID: 0}
 --- !u!114 &4726506988970519434
 MonoBehaviour:

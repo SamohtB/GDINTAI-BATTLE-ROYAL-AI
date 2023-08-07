@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     {
-        if((int)timer > 0)
+        if(timer > 0)
         {
             Countdown();
         }

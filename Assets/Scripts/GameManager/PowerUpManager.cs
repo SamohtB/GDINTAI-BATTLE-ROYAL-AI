@@ -1,10 +1,8 @@
-using System.Collections;
 using UnityEngine;
 using static Enum;
 
 public class PowerUpManager : MonoBehaviour
 {
-    [SerializeField] private GameObject powerUpPrefab;
     [SerializeField] private Grid targetGrid;
 
     private float powerUpSpawnTime;
@@ -47,10 +45,15 @@ public class PowerUpManager : MonoBehaviour
         int powerUpType = Random.Range(0, 5);
 
         Vector3 worldCoordinates = targetGrid.GetWorldPosition(gridLocX, gridLocY);
-        GameObject powerUp = Instantiate(powerUpPrefab);
-        powerUp.transform.position = worldCoordinates;
-        powerUp.GetComponent<PowerUp>().PlaceInGrid(worldCoordinates);
-       
+
+        GameObject powerUp = PowerUpPool.SharedInstance.GetPooledObject((PowerUpType)powerUpType);
+        if (powerUp != null)
+        {
+            powerUp.transform.position = worldCoordinates;
+            powerUp.GetComponent<GridObject>().PlaceInGrid(worldCoordinates);
+            powerUp.SetActive(true);
+        }
+
         Debug.Log("Spawned at " + worldCoordinates + " as " + (PowerUpType)powerUpType);
 
         powerUpSpawnTime = Random.Range(15, 20);

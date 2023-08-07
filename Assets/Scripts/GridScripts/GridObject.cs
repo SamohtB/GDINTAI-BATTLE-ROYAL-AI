@@ -6,12 +6,12 @@ public class GridObject : MonoBehaviour
     public Grid TargetGrid 
     {  
         get { return _grid; } 
-        private set { _grid = value; } 
+        set { _grid = value; } 
     }
 
     public Vector2Int PositionOnGrid {  get; set; }
 
-    [SerializeField] private Grid _grid;
+    [SerializeField] [ReadOnly] private Grid _grid;
 
     public void PlaceInGrid(Vector3 postion)
     {

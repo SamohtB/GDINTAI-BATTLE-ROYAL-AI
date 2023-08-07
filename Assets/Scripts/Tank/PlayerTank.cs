@@ -1,14 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class PlayerTank : Tank
 {
+    [SerializeField] private float shotCooldown = 1.0f;
+    private float ticks = 0.0f;
 
     private void Update()
     {
+        ticks += Time.deltaTime;
         PlayerShoot();
     }
 
@@ -19,8 +18,11 @@ public class PlayerTank : Tank
 
     void PlayerShoot()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if(Input.GetKeyDown(KeyCode.Space) && ticks >= shotCooldown)
+        {
+            ticks = 0.0f;
             Fire();
+        }
     }
 
     void PlayerMovement()

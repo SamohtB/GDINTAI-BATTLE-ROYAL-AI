@@ -17,14 +17,17 @@ public class AITank : Tank
 
     private void Update()
     {
-        if(pathfinding == null) { pathfinding = GetComponent<Pathfinding>(); }
+        //if(pathfinding == null) { pathfinding = GetComponent<Pathfinding>(); }
 
-        if (!TankMoving())
-        {
-            queuedPath = pathfinding.PathFind(this.PositionOnGrid, playerBases[0].PositionOnGrid);
-            MoveAgent(TranslateNodeToDirection(queuedPath[0]));
-            queuedPath.RemoveAt(0);
-        }
+        //if (!TankMoving())
+        //{
+        //    queuedPath = pathfinding.PathFind(PositionOnGrid, playerBases[0].PositionOnGrid);
+        //    if(queuedPath.Count > 0)
+        //    {
+        //        MoveAgent(TranslateNodeToDirection(queuedPath[0]));
+        //        queuedPath.RemoveAt(0);
+        //    }
+        //}
     }
 
     private Direction TranslateNodeToDirection(PathNode node)

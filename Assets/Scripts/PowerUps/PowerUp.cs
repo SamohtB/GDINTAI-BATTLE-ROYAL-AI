@@ -7,15 +7,17 @@ public class PowerUp : GridObject
         if(other.tag == "TANK")
         {
             TriggerPowerUp(other);
-            RemoveFromGrid(other.transform.position);
+            RemoveFromGrid(transform.position);
+
         }
         else
         {
             Debug.Log("NON TANK COLLISION!");
         }
         
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
+
 
     public virtual void TriggerPowerUp(Collider other) {}
 }

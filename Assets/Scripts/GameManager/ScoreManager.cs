@@ -62,6 +62,15 @@ public class ScoreManager : MonoBehaviour
                 spawnManager.RespawnCharacter(Enum.Faction.HighElf);
                 break;
 
+            case 2:
+                spawnManager.RespawnCharacter(Enum.Faction.HighElf);
+                break;
+
+            case 3:
+                spawnManager.RespawnCharacter(Enum.Faction.DarkElf);
+                break;
+
+
             default:
                 Debug.LogError("Eliminations Broadcast Error");
                 break;
