@@ -16,8 +16,6 @@ GameObject:
   - component: {fileID: 2769554302180452059}
   - component: {fileID: 2769554302180452057}
   - component: {fileID: 2769554302180452056}
-  - component: {fileID: 1375560908}
-  - component: {fileID: 6959931320162006869}
   m_Layer: 0
   m_Name: Player_Tank
   m_TagString: TANK
@@ -359,24 +357,3 @@ MonoBehaviour:
   - {fileID: 2100000, guid: eced97488cfced142a5e2c7dab64041e, type: 2}
   - {fileID: 2100000, guid: 959218f7492bf80418582d93a656f937, type: 2}
   factionOwner: 0
---- !u!33 &1375560908
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2769554302180452048}
-  m_Mesh: {fileID: 0}
---- !u!114 &6959931320162006869
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2769554302180452048}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd973f6695e55c348bf6b2f74ce024c3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _grid: {fileID: 0}

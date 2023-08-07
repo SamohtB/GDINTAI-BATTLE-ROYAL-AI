@@ -50,16 +50,16 @@ public class Tank : GridObject
         set { moveSpeed = value; } 
     }
 
-    private void Awake()
-    {
-        direction = Direction.North;
-    }
-
     // Start is called before the first frame update
     void Start()
     {
         MaxHealth = 1;
         CurrentHealth = 1;
+    }
+
+    private void OnEnable()
+    {
+        direction = Direction.North;
     }
 
     public void InitTank(Faction faction)
@@ -261,8 +261,13 @@ public class Tank : GridObject
             }
 
             EventBroadcaster.Instance.PostEvent(EventNames.ON_ELIMINATION, parameters);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
+    }
+
+    public bool TankMoving()
+    {
+        return isMoving;
     }
 
 }

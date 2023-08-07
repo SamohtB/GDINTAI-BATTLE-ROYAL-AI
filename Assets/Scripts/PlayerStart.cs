@@ -4,7 +4,7 @@ using static Enum;
 
 public class PlayerStart : GridObject
 {
-    [SerializeField] private GameObject tankPrefab;
+    [SerializeField] private GameObject tank;
     [SerializeField] private Faction factionOwner;
     [SerializeField] private float shieldTimer = 10.0f;
     [SerializeField] private bool shieldsUp = false;
@@ -27,9 +27,13 @@ public class PlayerStart : GridObject
         set { factionOwner = value; }
     }
 
+    private void Start()
+    {
+        PlaceInGrid(transform.position);
+    }
+
     public GameObject CreateTank()
     {
-        GameObject tank = Instantiate(tankPrefab);
         tank.SetActive(true);
         tank.transform.position = transform.position;
         tank.GetComponent<GridObject>().PlaceInGrid(tank.transform.position);

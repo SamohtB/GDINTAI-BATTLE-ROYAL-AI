@@ -1,62 +1,122 @@
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
-using UnityEngine.UIElements;
+
+
+public class PathNode
+{
+    public int pos_x;
+    public int pos_y;
+
+    public float gValue;
+    public float hValue;
+    public PathNode parentNode;
+
+    public float fValue
+    {
+        get { return gValue + hValue; }
+    }
+
+    public PathNode(int xPos, int yPos)
+    {
+        pos_x = xPos;
+        pos_y = yPos;
+    }
+
+    public void Clear()
+    {
+        gValue = 0f;
+        hValue = 0f;
+        parentNode = null;
+    }
+}
 
 public class Pathfinding : MonoBehaviour
 {
     [SerializeField] private Grid targetGrid;
-    [SerializeField] private GridObject agent;
     [SerializeField] private GridObject enemy;
 
-    Node[,] grid;
-    Vector2Int bounds;
-    Vector2Int[] directions = { Vector2Int.up, Vector2Int.down, Vector2Int.left, Vector2Int.right };
+    PathNode[,] pathNodes;
 
     private void Start()
     {
-        grid = targetGrid.GetGrid();
-        bounds = targetGrid.GetBounds();
-        agent = GetComponent<GridObject>();
+        Init();
     }
 
-    public List<Vector2Int> PathFind(Vector2Int start, Vector2Int goal)
+    private void Init()
     {
-        List<Node> result = new List<Node>();
+        if (targetGrid == null) { targetGrid = FindFirstObjectByType<Grid>(); }
 
-        List<Vector2Int> openList = new List<Vector2Int>();
-        List<Vector2Int> closedList = new List<Vector2Int>();
+        Vector2Int bounds = targetGrid.GetBounds();
+        pathNodes = new PathNode[bounds.x, bounds.y];
 
-        openList.Add(start);
-        grid[start.x, start.y].GCost = 0;
-        grid[start.x, start.y].HCost = 0;
+        for (int x = 0; x < bounds.x; x++)
+        {
+            for (int y = 0; y < bounds.y; y++)
+            {
+                pathNodes[x, y] = new PathNode(x,y);
+            }
+        }
+    }
+
+    public List<PathNode> PathFind(Vector2Int start, Vector2Int goal)
+    {
+        PathNode startNode = pathNodes[start.x, start.y];
+        PathNode endNode = pathNodes[goal.x, goal.y];
+
+        List<PathNode> openList = new List<PathNode>();
+        List<PathNode> closedList = new List<PathNode>();
+
+        openList.Add(startNode);
 
         while(openList.Count > 0)
         {
-            Vector2Int currentNode = openList.OrderBy(node => grid[node.x, node.y].FCost)
-                .ThenBy(node => grid[node.x, node.y].HCost).First();
+            PathNode currentNode = openList[0];
 
-            openList.Remove(currentNode);
-
-            if(currentNode == goal)
+            for (int i = 0; i < openList.Count; i++)
             {
-                return ReconstructPath(currentNode);
+                if (currentNode.fValue > openList[i].fValue)
+                {
+                    currentNode = openList[i];
+                }
+
+                if (currentNode.fValue == openList[i].fValue && currentNode.hValue > openList[i].hValue)
+                {
+                    currentNode = openList[i];
+                }
             }
 
-            List<Vector2Int> neighbors = GetNeighbors(currentNode);
+            openList.Remove(currentNode);
+            closedList.Add(currentNode);
 
-            foreach (Vector2Int neighbor in neighbors)
+            if(currentNode == endNode)
             {
-                float newGCost = grid[currentNode.x, currentNode.y].GCost + 1;
-                float newHCost = CalculateHCost(neighbor, goal);
+                return ReconstructPath(startNode, endNode);
+            }
 
-                if (!closedList.Contains(neighbor) || newGCost < grid[neighbor.x, neighbor.y].GCost)
+            List<PathNode> neighborNodes = new List<PathNode>();
+            for (int x = -1; x < 2; x++)
+            {
+                for (int y = -1; y < 2; y++)
                 {
-                    grid[neighbor.x, neighbor.y].GCost = newGCost;
-                    grid[neighbor.x, neighbor.y].HCost = newHCost;
-                    grid[neighbor.x, neighbor.y].Parent = currentNode;
+                    if (x == 0 && y == 0) { continue; }
+                    if (targetGrid.CheckBoundry(currentNode.pos_x + x, currentNode.pos_y + y) == false) { continue; }
+
+                    neighborNodes.Add(pathNodes[currentNode.pos_x + x, currentNode.pos_y + y]);
+                }
+            }
+
+            foreach (PathNode neighbor in neighborNodes)
+            {
+                if(closedList.Contains(neighbor)) { continue; }
+                if(!targetGrid.CheckWalkable(neighbor.pos_x, neighbor.pos_y)) { continue; }
+
+                float tileCost = currentNode.gValue + CalculateHCost(currentNode, neighbor);
+
+                if (!openList.Contains(neighbor) || tileCost < neighbor.gValue)
+                {
+                    neighbor.gValue = tileCost;
+                    neighbor.hValue = CalculateHCost(neighbor, endNode);
+                    neighbor.parentNode = currentNode;
 
                     if(!openList.Contains(neighbor))
                     {
@@ -66,167 +126,31 @@ public class Pathfinding : MonoBehaviour
             }
         }
 
-        return new List<Vector2Int>();
+        return null;
     }
 
-    private List<Vector2Int> GetNeighbors(Vector2Int position)
+    private int CalculateHCost(PathNode currentNode, PathNode targetNode)
     {
-        List<Vector2Int> neighbors = new List<Vector2Int>();
+        int distance_x = Mathf.Abs(currentNode.pos_x - targetNode.pos_x);
+        int distance_y = Mathf.Abs(currentNode.pos_y - targetNode.pos_y);
 
-        foreach (Vector2Int dir in directions)
-        {
-            Vector2Int neighborPos = position + dir;
-            if(IsValidPosition(neighborPos))
-            {
-                if(grid[neighborPos.x, neighborPos.y].Passable)
-                {
-                    neighbors.Add(neighborPos);
-                }
-            }
-        }
-
-        return neighbors;
+        if (distance_x > distance_y) { return 14 * distance_y + 10 * (distance_x - distance_y); }
+        return 14 * distance_x + 10 * (distance_y - distance_x);
     }
 
-    private float CalculateHCost(Vector2Int tilePosition, Vector2Int goal)
+    private List<PathNode> ReconstructPath(PathNode startNode, PathNode goalNode)
     {
-        if(enemy == null)
-        {
-            return CalculateTilePotential(tilePosition, goal) + CalculatePlayerLineOfSight(tilePosition);
-        }
-        else
-        {
-            return CalculateTilePotential(tilePosition, agent.PositionOnGrid, enemy.PositionOnGrid, goal);
-        }
-    }
+        List<PathNode> path = new List<PathNode>();
+        PathNode currentNode = goalNode;
 
-    private float CalculateTilePotential(Vector2Int tilePosition, Vector2Int agentPosition, Vector2Int playerPosition, Vector2Int goalPosition)
-    {
-        float agentDistance = Vector2Int.Distance(tilePosition, agentPosition);
-        float playerDistance = Vector2Int.Distance(tilePosition, playerPosition);
-        float goalDistance = Vector2Int.Distance(tilePosition, goalPosition);
-
-        float potential = agentDistance - playerDistance + goalDistance;
-        return potential;
-    }
-
-    private float CalculateTilePotential(Vector2Int tilePosition, Vector2Int goalPosition)
-    {
-        return Vector2Int.Distance(tilePosition, goalPosition);
-    }
-
-    private float CalculatePlayerLineOfSight(Vector2Int tilePosition)
-    {
-        int enemyPosX = enemy.PositionOnGrid.x;
-        int enemyPosY = enemy.PositionOnGrid.y;
-
-        /* Not In Line With The Player */
-        if(tilePosition.x !=  enemyPosX || tilePosition.y != enemyPosY) { return 0; }
-
-        /* check Y Axis */
-        if(tilePosition.x == enemy.PositionOnGrid.x)
-        {
-            if(CheckYAxis(tilePosition))
-            {
-                return -100;
-            }
-        }
-        else if(tilePosition.y == enemyPosY)
-        {
-            if(CheckXAxis(tilePosition))
-            {
-                return -100;
-            }
-        }
-            
-        return 0;
-    }
-
-    private bool CheckYAxis(Vector2Int tilePosition)
-    {
-        int enemyPosY = enemy.PositionOnGrid.y;
-
-        /* check up */
-        if (tilePosition.y > enemyPosY)
-        {
-            for (int i = 1; tilePosition.y != enemyPosY; i++)
-            {
-                if (!grid[tilePosition.x, tilePosition.y - i].Passable)
-                {
-                    return true;
-                }
-            }
-        }
-
-        /* check down */
-        if (tilePosition.y < enemyPosY)
-        {
-            for (int i = 1; tilePosition.y != enemyPosY; i++)
-            {
-                if (!grid[tilePosition.x, tilePosition.y + i].Passable)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private bool CheckXAxis(Vector2Int tilePosition)
-    {
-        int enemyPosX = enemy.PositionOnGrid.x;
-
-        /* check right */
-        if (tilePosition.x > enemyPosX)
-        {
-            for (int i = 1; tilePosition.x != enemyPosX; i++)
-            {
-                if (!grid[tilePosition.x - i, tilePosition.y].Passable)
-                {
-                    return true;
-                }
-            }
-        }
-
-        /* check left */
-        if (tilePosition.x < enemyPosX)
-        {
-            for (int i = 1; tilePosition.x != enemyPosX; i++)
-            {
-                if (!grid[tilePosition.x  + i, tilePosition.y].Passable)
-                {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-    private List<Vector2Int> ReconstructPath(Vector2Int goalNode)
-    {
-        List<Vector2Int> path = new List<Vector2Int>();
-        Vector2Int currentNode = goalNode;
-
-        while (currentNode != null)
+        while (currentNode != startNode)
         {
             path.Add(currentNode);
-            currentNode = grid[currentNode.x, currentNode.y].Parent;
+            currentNode = currentNode.parentNode;
         }
 
         path.Reverse();
         return path;
-    }
-
-    private bool IsValidPosition(Vector2Int position)
-    {
-        return position.x >= 0 && position.x < bounds.x && position.y >= 0 && position.y < bounds.y;
-    }
-
-    public void AssignAgent(GridObject enemy)
-    {
-        this.enemy = enemy;
     }
 }
 

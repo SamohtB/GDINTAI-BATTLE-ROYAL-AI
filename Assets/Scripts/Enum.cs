@@ -9,7 +9,7 @@ public class Enum
 {
     public enum Faction { None = -1, HighElf = 0, DarkElf }
     public enum PowerUpType { None = -1, SpeedUp, SpeedDown, BaseShield, Mines, Chaos }
-    public enum Direction { North = 0, South, East, West }
+    public enum Direction { NONE = -1, North = 0, South, East, West }
 
     public enum ObjectType { Base = 0, Tank, Bullet }
 }   

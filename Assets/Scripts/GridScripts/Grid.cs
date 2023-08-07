@@ -213,11 +213,6 @@ public class Grid : MonoBehaviour
         return null;
     }
 
-    public Node[,] GetGrid()
-    {
-        return grid;
-    }
-
     //public List<Vector3> ConvertPathNodeToTargetPositions(List<PathNode> path)
     //{
       //  List<Vector3> worldPositions = new List<Vector3>();
