@@ -1,14 +1,15 @@
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PathNode
 {
-    public int pos_x;
-    public int pos_y;
+    public int pos_x {  get; set; }
+    public int pos_y { get; set; }
 
-    public float gValue;
-    public float hValue;
-    public PathNode parentNode;
+    public float gValue { get; set; }
+    public float hValue { get; set; }
+    public PathNode parentNode { get; set; }
 
     public float fValue
     {
@@ -67,6 +68,7 @@ public class Pathfinding : MonoBehaviour
         List<PathNode> closedList = new List<PathNode>();
 
         openList.Add(startNode);
+        startNode.gValue = 0;
 
         while(openList.Count > 0)
         {
@@ -113,12 +115,12 @@ public class Pathfinding : MonoBehaviour
                 if(closedList.Contains(neighbor)) { continue; }
                 if(!targetGrid.CheckWalkable(neighbor.pos_x, neighbor.pos_y)) { continue; }
 
-                float tileCost = currentNode.gValue + CalculateHCost(currentNode, neighbor);
+                float tileCost = currentNode.gValue + CalculateHCost(currentNode);
 
                 if (!openList.Contains(neighbor) || tileCost < neighbor.gValue)
                 {
-                    neighbor.gValue = tileCost;
-                    neighbor.hValue = CalculateHCost(neighbor, endNode);
+                    neighbor.gValue = currentNode.gValue + 1;
+                    neighbor.hValue = CalculateHCost(neighbor);
                     neighbor.parentNode = currentNode;
 
                     if(!openList.Contains(neighbor))
@@ -132,14 +134,24 @@ public class Pathfinding : MonoBehaviour
         return null;
     }
 
-    private int CalculateHCost(PathNode currentNode, PathNode targetNode)
+    private int CalculateHCost(PathNode targetNode)
     {
-        int distance_x = Mathf.Abs(currentNode.pos_x - targetNode.pos_x);
-        int distance_y = Mathf.Abs(currentNode.pos_y - targetNode.pos_y);
+        GridObject pObject = targetGrid.GetGridObject(targetNode.pos_x, targetNode.pos_y);
+        if(pObject == null) { return 0; }
 
-        if (distance_x > distance_y) { return 14 * distance_y + 10 * (distance_x - distance_y); }
-        return 14 * distance_x + 10 * (distance_y - distance_x);
+        switch(pObject.ObjectType)
+        {
+           case GridObjectType.SPEEDUP:
+                return -10;
+           
+           case GridObjectType.HAZARD:
+                return 1000;
+
+           default:
+                return 0;
+        }
     }
+
 
     private List<PathNode> ReconstructPath(PathNode startNode, PathNode goalNode)
     {

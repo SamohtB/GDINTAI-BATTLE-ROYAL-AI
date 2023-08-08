@@ -1,6 +1,17 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 
+
+public enum GridObjectType : int
+{
+    NONE = -1,
+    TANK = 0,
+    BASE,
+    SPEEDUP,
+    HAZARD,
+    POWERUP
+}
+
 public class GridObject : MonoBehaviour
 {
     public Grid TargetGrid 
@@ -9,9 +20,16 @@ public class GridObject : MonoBehaviour
         set { _grid = value; } 
     }
 
+    public GridObjectType ObjectType
+    {
+        get { return _type; }
+        set { _type = value; }
+    }
+
     public Vector2Int PositionOnGrid {  get; set; }
 
     [SerializeField] [ReadOnly] private Grid _grid;
+    [SerializeField] private GridObjectType _type;
 
     public void PlaceInGrid(Vector3 postion)
     {

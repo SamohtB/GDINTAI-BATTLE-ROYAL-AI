@@ -8,6 +8,8 @@ public class AITank : Tank
 {
     [SerializeField] private Pathfinding pathfinding;
     [SerializeField] private List<GridObject> playerBases;
+
+    [SerializeField] private GridObject DebugFind;
     private List<PathNode> queuedPath;
 
     private void Start()
@@ -17,17 +19,17 @@ public class AITank : Tank
 
     private void Update()
     {
-        //if(pathfinding == null) { pathfinding = GetComponent<Pathfinding>(); }
+        if (pathfinding == null) { pathfinding = GetComponent<Pathfinding>(); }
 
-        //if (!TankMoving())
-        //{
-        //    queuedPath = pathfinding.PathFind(PositionOnGrid, playerBases[0].PositionOnGrid);
-        //    if(queuedPath.Count > 0)
-        //    {
-        //        MoveAgent(TranslateNodeToDirection(queuedPath[0]));
-        //        queuedPath.RemoveAt(0);
-        //    }
-        //}
+        if (!TankMoving())
+        {
+            queuedPath = pathfinding.PathFind(PositionOnGrid, DebugFind.PositionOnGrid);
+            if (queuedPath.Count > 0)
+            {
+                MoveAgent(TranslateNodeToDirection(queuedPath[0]));
+                queuedPath.RemoveAt(0);
+            }
+        }
     }
 
     private Direction TranslateNodeToDirection(PathNode node)

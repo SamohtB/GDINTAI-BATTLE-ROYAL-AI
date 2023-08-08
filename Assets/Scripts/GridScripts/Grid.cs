@@ -192,6 +192,11 @@ public class Grid : MonoBehaviour
         return new Vector2Int(_width, _height);
     }
 
+    public GridObject GetGridObject(int pos_x, int pos_y)
+    {
+        return grid[pos_x, pos_y].GridObject;
+    }
+
     public Vector2Int GetGridPosition(Vector3 worldPosition)
     {
         worldPosition.x += _cellSize / 2;
