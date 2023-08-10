@@ -15,7 +15,6 @@ public class FactionColor : MonoBehaviour
     void Start()
     {
         SetFaction();
-        ApplyFactionColor();
     }
 
     private void SetFaction()
@@ -39,27 +38,8 @@ public class FactionColor : MonoBehaviour
         }
     }
 
-    private void ApplyFactionColor()
-    {
-        switch (factionOwner) 
-        {
-            case Faction.HighElf:
-                gameObject.GetComponent<Renderer>().material = factionColor[1];
-                break;
-
-            case Faction.DarkElf:
-                gameObject.GetComponent<Renderer>().material = factionColor[2];
-                break;
-
-            default:
-                gameObject.GetComponent<Renderer>().material = factionColor[0];
-                break;
-        }
-    }
-
     private void OnDrawGizmos()
     {
         SetFaction();
-        ApplyFactionColor();
     }
 }

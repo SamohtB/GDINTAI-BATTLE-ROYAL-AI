@@ -1,5 +1,6 @@
 using System.Collections;
 using UnityEngine;
+using UnityEngine.UIElements;
 using static Enum;
 
 public class PlayerStart : GridObject
@@ -38,6 +39,7 @@ public class PlayerStart : GridObject
         tank.transform.position = transform.position;
         tank.GetComponent<GridObject>().PlaceInGrid(tank.transform.position);
         tank.GetComponent<Tank>().InitTank(factionOwner);
+        tank.GetComponent<Tank>().ToggleStatus(true);
 
         return tank;
     }

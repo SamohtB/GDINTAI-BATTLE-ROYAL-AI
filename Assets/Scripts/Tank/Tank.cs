@@ -5,6 +5,7 @@ using static Enum;
 
 public class Tank : GridObject
 {
+    [SerializeField] private GameObject tankBody;
     [SerializeField] protected GameObject bulletPrefab;
     [SerializeField] private float moveSpeed = 1.0f;
     [SerializeField] private float defaultSpeed = 1.0f;
@@ -15,12 +16,16 @@ public class Tank : GridObject
     [SerializeField] private bool speedUpOn = false;
     [SerializeField] private bool speedDownOn = false;
 
+    [SerializeField] private float shotCooldown = 1.0f;
+    [SerializeField] [ReadOnly] protected float ticks = 0.0f;
+
     private Coroutine speedUpCoroutine;
     private Coroutine speedDownCoroutine;
 
     [Header("ReadOnly")]
-    [SerializeField] [ReadOnly] private Direction direction;
+    [SerializeField] [ReadOnly] protected Direction direction;
     [SerializeField] [ReadOnly] private Vector3 offset;
+    [SerializeField] [ReadOnly] private bool isTankAlive;
 
     List<Quaternion> FixedRotations = new List<Quaternion>
     { 
@@ -34,6 +39,12 @@ public class Tank : GridObject
     private Vector3 startNode;
     private bool isMoving = false;
     private float completionRate = 0.0f;
+
+    public bool IsAlive 
+    {
+        get { return isTankAlive; }
+        private set { isTankAlive = value; }
+    }
 
     public int MaxHealth { get; set; }
     public int CurrentHealth { get; set; }
@@ -57,6 +68,7 @@ public class Tank : GridObject
         CurrentHealth = 1;
     }
 
+
     private void OnEnable()
     {
         direction = Direction.North;
@@ -65,6 +77,13 @@ public class Tank : GridObject
     public void InitTank(Faction faction)
     {
         factionOwner = faction;
+        tankBody = transform.GetChild(0).gameObject;
+    }
+
+    public void ToggleStatus(bool status)
+    {
+        isTankAlive = status;
+        gameObject.SetActive(status);
     }
 
     public void MoveUp()
@@ -126,12 +145,16 @@ public class Tank : GridObject
 
     public void Fire() 
     {
-        /* Replace with Object Pool */
-        GameObject bullet = Instantiate(bulletPrefab, transform.position + offset, Quaternion.identity);
-        bullet.GetComponent<Bullet>().Direction = direction;
-        bullet.GetComponent<Bullet>().Faction = Faction;
+        if(ticks >= shotCooldown)
+        {
+            ticks = 0.0f;
+            GameObject bullet = Instantiate(bulletPrefab, transform.position + offset, Quaternion.identity);
+            bullet.GetComponent<Bullet>().Direction = direction;
+            bullet.GetComponent<Bullet>().Faction = Faction;
 
-        Debug.Log("Fire");
+            Debug.Log("Fire");
+        }
+        
     }
 
     private void MoveToDirection(Direction direction)
@@ -261,7 +284,7 @@ public class Tank : GridObject
             }
 
             EventBroadcaster.Instance.PostEvent(EventNames.ON_ELIMINATION, parameters);
-            gameObject.SetActive(false);
+            ToggleStatus(false);
         }
     }
 

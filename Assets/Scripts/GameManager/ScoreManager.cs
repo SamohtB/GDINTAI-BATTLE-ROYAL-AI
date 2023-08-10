@@ -12,6 +12,9 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerBasesCount;
     [SerializeField] private TextMeshProUGUI enemyBasesCount;
 
+    [SerializeField] private GameObject endPanel;
+    [SerializeField] private TextMeshProUGUI endText;
+
     [Header("ReadOnly")]
     [SerializeField] [ReadOnly] private int playerEliminationsCount = 0;
     [SerializeField] [ReadOnly] private int enemyEliminationsCount = 0;
@@ -112,5 +115,28 @@ public class ScoreManager : MonoBehaviour
     public void GameEnd()
     {
         Debug.Log("Game End");
+        Time.timeScale = 0.0f;
+        endPanel.SetActive(true);
+        
+        if(enemyAliveBases <= 0)
+        {
+            endText.text = "YOU WIN";
+        }
+        else if(playerAliveBases <= 0)
+        {
+            endText.text = "YOU LOSE";
+        }
+        else if(playerEliminationsCount < enemyEliminationsCount)
+        {
+            endText.text = "YOU LOSE";
+        }
+        else if(playerEliminationsCount > enemyEliminationsCount)
+        {
+            endText.text = "YOU WIN";
+        }
+        else
+        {
+            endText.text = "TIE";
+        }
     }
 }

@@ -8,4 +8,7 @@ public class MiniMax : MonoBehaviour
     [SerializeField] private GameObject enemyTank;
     [SerializeField] private List<GameObject> enemyBases;
     [SerializeField] private List<GameObject> friendlyBases;
+
+
+
 }

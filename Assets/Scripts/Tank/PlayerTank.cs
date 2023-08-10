@@ -2,9 +2,10 @@ using UnityEngine;
 
 public class PlayerTank : Tank
 {
-    [SerializeField] private float shotCooldown = 1.0f;
-    private float ticks = 0.0f;
-
+    private void Start()
+    {
+        gameObject.SetActive(false);
+    }
     private void Update()
     {
         ticks += Time.deltaTime;
@@ -18,9 +19,8 @@ public class PlayerTank : Tank
 
     void PlayerShoot()
     {
-        if(Input.GetKeyDown(KeyCode.Space) && ticks >= shotCooldown)
+        if(Input.GetKeyDown(KeyCode.Space))
         {
-            ticks = 0.0f;
             Fire();
         }
     }

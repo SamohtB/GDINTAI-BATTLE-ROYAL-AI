@@ -131,7 +131,8 @@ public class Pathfinding : MonoBehaviour
             }
         }
 
-        return null;
+        List<PathNode> single = new List<PathNode>() { endNode };
+        return single;
     }
 
     private int CalculateHCost(PathNode targetNode)
@@ -145,7 +146,7 @@ public class Pathfinding : MonoBehaviour
                 return -10;
            
            case GridObjectType.HAZARD:
-                return 1000;
+                return 100;
 
            default:
                 return 0;

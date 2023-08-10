@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Net;
 using UnityEngine;
 using static Enum;
 
@@ -7,37 +6,96 @@ using static Enum;
 public class AITank : Tank
 {
     [SerializeField] private Pathfinding pathfinding;
+    [SerializeField] private TankStates tankStates;
+    [SerializeField] private GridObject player;
     [SerializeField] private List<GridObject> playerBases;
+    [SerializeField] private List<GridObject> agentBases;
 
     [SerializeField] private GridObject DebugFind;
-    private List<PathNode> queuedPath;
-
-    private void Start()
-    {
-        queuedPath = new List<PathNode>();
-    }
 
     private void Update()
+    {
+        ticks += Time.deltaTime;
+        AI_PathFinding();
+    }
+
+
+    private void AI_PathFinding()
     {
         if (pathfinding == null) { pathfinding = GetComponent<Pathfinding>(); }
 
         if (!TankMoving())
         {
-            queuedPath = pathfinding.PathFind(PositionOnGrid, DebugFind.PositionOnGrid);
-            if (queuedPath.Count > 0)
+            PathNode nextTile = DecideDirection();
+
+            if (nextTile != null)
             {
-                MoveAgent(TranslateNodeToDirection(queuedPath[0]));
-                queuedPath.RemoveAt(0);
+                MoveAgent(TranslateNodeToDirection(nextTile));
+
+                if(GetComponent<TankStates>().GetState() == Tank_States.FIRE)
+                {
+                    Fire();
+                }
             }
         }
+    }
+
+    private PathNode DecideDirection()
+    {
+        Tank_States currentState = tankStates.GetCurrentState();
+
+        switch(currentState)
+        {
+            case Tank_States.FIRE:
+                return pathfinding.PathFind(PositionOnGrid, player.PositionOnGrid)[0];
+
+            case Tank_States.ATTACK_BASE:
+                return GetClosestBasePathNode(this, playerBases);
+
+            case Tank_States.HUNT_PLAYER:
+                return pathfinding.PathFind(PositionOnGrid, player.PositionOnGrid)[0];
+
+            case Tank_States.SEEK_POWER_UP:
+                return null;
+
+            default:
+                return null;
+        }
+    }
+
+    private PathNode GetClosestBasePathNode(GridObject origin, List<GridObject> bases)
+    {
+        float closestDistance = float.MaxValue;
+        PathNode closestPathNode = null;
+
+        for (int i = 0; i < bases.Count; i++)
+        {
+            if (bases[i].GetComponent<Renderer>().enabled)
+            {
+                List<PathNode> path = pathfinding.PathFind(origin.PositionOnGrid, bases[i].PositionOnGrid);
+                Debug.Log("Path start!");
+                if (path != null && path.Count > 0)
+                {
+                    float distance = path.Count;
+
+                    if (distance < closestDistance)
+                    {
+                        closestDistance = distance;
+                        closestPathNode = path[0];
+                    }
+                }
+                
+            }
+        }
+        Debug.Log("Path Found");
+
+        return closestPathNode;
     }
 
     private Direction TranslateNodeToDirection(PathNode node)
     {
         int deltaX = node.pos_x - PositionOnGrid.x;
         int deltaY = node.pos_y - PositionOnGrid.y;
-
-        Debug.Log($"Target Position: ({node.pos_x}, {node.pos_y}) | Position On Grid: ({PositionOnGrid.x}, {PositionOnGrid.y})");
 
         if (deltaX == 1 && deltaY == 0)
         {
