@@ -14,11 +14,11 @@ public class GeneralUI : MonoBehaviour
     public void OnPlayPressed()
     {
 
-        SceneManager.LoadScene(dropdown.value);
+        SceneManager.LoadScene(dropdown.value + 1);
     }
 
     public void OnMainMenuPressed()
     {
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(0);
     }
 }
