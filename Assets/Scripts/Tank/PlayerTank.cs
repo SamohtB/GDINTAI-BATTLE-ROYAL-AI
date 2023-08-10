@@ -2,10 +2,6 @@ using UnityEngine;
 
 public class PlayerTank : Tank
 {
-    private void Start()
-    {
-        gameObject.SetActive(false);
-    }
     private void Update()
     {
         ticks += Time.deltaTime;

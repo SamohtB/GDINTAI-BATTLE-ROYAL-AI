@@ -779,6 +779,25 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!1 &621920067 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1190623400703588731, guid: b01aa0d7a077bcd478d6486575361842, type: 3}
+  m_PrefabInstance: {fileID: 1899927008}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &621920075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 621920067}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c5e78faf9864a0448de94ceddad7564, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetGrid: {fileID: 1167523972}
+  mineSpawnCount: 3
 --- !u!43 &750478039
 Mesh:
   m_ObjectHideFlags: 0
@@ -1599,6 +1618,17 @@ Mesh:
     offset: 0
     size: 0
     path: 
+--- !u!114 &1167523972 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5190213506050975001, guid: b01aa0d7a077bcd478d6486575361842, type: 3}
+  m_PrefabInstance: {fileID: 1899927008}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23d73cbb3e838694e86677040aad8bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!43 &1292270265
 Mesh:
   m_ObjectHideFlags: 0
