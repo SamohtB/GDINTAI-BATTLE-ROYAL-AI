@@ -83,7 +83,7 @@ public class Tank : GridObject
     public void ToggleStatus(bool status)
     {
         isTankAlive = status;
-        gameObject.SetActive(status);
+        tankBody.SetActive(status);
     }
 
     public void MoveUp()
@@ -284,6 +284,7 @@ public class Tank : GridObject
             }
 
             EventBroadcaster.Instance.PostEvent(EventNames.ON_ELIMINATION, parameters);
+            RemoveFromGrid(transform.position);
             ToggleStatus(false);
         }
     }

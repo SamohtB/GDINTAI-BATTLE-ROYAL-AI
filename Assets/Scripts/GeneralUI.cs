@@ -1,11 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GeneralUI : MonoBehaviour
 {
-
+    [SerializeField] private TMP_Dropdown dropdown;
     public void OnQuitPressed()
     {
         Application.Quit();
@@ -13,7 +13,8 @@ public class GeneralUI : MonoBehaviour
 
     public void OnPlayPressed()
     {
-        SceneManager.LoadScene(0);
+
+        SceneManager.LoadScene(dropdown.value);
     }
 
     public void OnMainMenuPressed()

@@ -8,14 +8,13 @@ public class PowerUp : GridObject
         {
             TriggerPowerUp(other);
             RemoveFromGrid(transform.position);
+            gameObject.SetActive(false);
 
         }
         else
         {
             Debug.Log("NON TANK COLLISION!");
         }
-        
-        gameObject.SetActive(false);
     }
 
 

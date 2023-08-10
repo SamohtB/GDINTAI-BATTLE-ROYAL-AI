@@ -16,7 +16,11 @@ public class AITank : Tank
     private void Update()
     {
         ticks += Time.deltaTime;
-        AI_PathFinding();
+        if(IsAlive)
+        {
+            AI_PathFinding();    
+        }
+        
     }
 
 
