@@ -18,7 +18,7 @@ public class AITank : Tank
         ticks += Time.deltaTime;
         if(IsAlive)
         {
-            AI_PathFinding();    
+            //AI_PathFinding();    
         }
         
     }

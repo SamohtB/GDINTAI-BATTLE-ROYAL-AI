@@ -5,8 +5,6 @@ public class PlayerTank : Tank
     private void Update()
     {
         ticks += Time.deltaTime;
-        if(IsAlive)
-            PlayerShoot();
     }
 
     private void FixedUpdate()
